@@ -1,4 +1,5 @@
-let data = [
+
+var data = [
   { num: "88", frq: "4186.009" },
   { num: "87", frq: "3951.066" },
   { num: "86", frq: "3729.310" },
@@ -89,36 +90,49 @@ let data = [
   { num: "1", frq: "27.50000" },
 ];
 
-function findNotes(num) {
-  exactNotes = [];
-  frq = findFrq(num);
-  let undertones = generateUndertones(frq);
-  let overtones = generateOvertones(frq);
-  partials = undertones.concat(overtones);
-  partials.forEach((partial) => {
-    data.forEach((object) => {
-      if (object["frq"] - partial < 1 && object["frq"] - partial > -1) {
-        exactNotes.push(object["num"]);
-      }
-    });
-  });
+autowatch = 1;
+inlets = 1;
+outlets = 2;
 
-  console.log(exactNotes);
+
+function findNotes(num) {
+  var exactNotes = [];
+
+  var frq = findFrq(num);
+  var undertones = generateUndertones(frq);
+  var overtones = generateOvertones(frq);
+
+  partials = undertones.concat(overtones);
+  var i = 0;
+  while (i < partials.length){
+    var q = 0;
+    while (q < data.length){
+      if (data[q].frq - partials[i] < 1 && data[q].frq - partials[i] > -1) {
+        exactNotes.push(data[q].num);
+      }
+      q += 1
+    };
+    i += 1
+  };
+
+  outlet(0, exactNotes)
 }
 
 function findFrq(number) {
   frq = "";
-  data.forEach((object) => {
-    if (object["num"].toString() == number) {
-      frq = object["frq"];
+  var i = 0;
+  while (i < data.length){
+    if (data[i].num.toString() == number) {
+      frq = data[i].frq;
     }
-  });
+    i+=1
+  }
   return frq;
 }
 
 function generateOvertones(frq) {
-  let partials = [];
-  let partial = frq;
+  var partials = [];
+  var partial = frq;
   i = 2;
   while (partial < 4200) {
     newFrq = parseFloat(frq) * i;
@@ -131,7 +145,7 @@ function generateOvertones(frq) {
 }
 
 function generateUndertones(frq) {
-  let partials = [];
+  var partials = [];
 
   partial = frq;
   i = 2;
@@ -145,5 +159,3 @@ function generateUndertones(frq) {
 
   return partials;
 }
-
-findNotes(37);
