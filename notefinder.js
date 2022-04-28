@@ -1,4 +1,3 @@
-
 var data = [
   { num: "88", frq: "4186.009" },
   { num: "87", frq: "3951.066" },
@@ -94,7 +93,6 @@ autowatch = 1;
 inlets = 1;
 outlets = 2;
 
-
 function findNotes(num) {
   var exactNotes = [];
 
@@ -104,28 +102,28 @@ function findNotes(num) {
 
   partials = undertones.concat(overtones);
   var i = 0;
-  while (i < partials.length){
+  while (i < partials.length) {
     var q = 0;
-    while (q < data.length){
+    while (q < data.length) {
       if (data[q].frq - partials[i] < 1 && data[q].frq - partials[i] > -1) {
         exactNotes.push(data[q].num);
       }
-      q += 1
-    };
-    i += 1
-  };
+      q += 1;
+    }
+    i += 1;
+  }
 
-  outlet(0, exactNotes)
+  outlet(0, exactNotes);
 }
 
 function findFrq(number) {
   frq = "";
   var i = 0;
-  while (i < data.length){
+  while (i < data.length) {
     if (data[i].num.toString() == number) {
       frq = data[i].frq;
     }
-    i+=1
+    i += 1;
   }
   return frq;
 }
@@ -133,7 +131,8 @@ function findFrq(number) {
 function generateOvertones(frq) {
   var partials = [];
   var partial = frq;
-  i = 2;
+  var i = 2;
+
   while (partial < 4200) {
     newFrq = parseFloat(frq) * i;
     newFrq = parseFloat(newFrq.toFixed(5));
@@ -146,9 +145,9 @@ function generateOvertones(frq) {
 
 function generateUndertones(frq) {
   var partials = [];
+  var partial = frq;
+  var i = 2;
 
-  partial = frq;
-  i = 2;
   while (partial > 15) {
     newFrq = parseFloat(frq) / i;
     newFrq = parseFloat(newFrq.toFixed(5));
