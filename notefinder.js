@@ -95,29 +95,57 @@ outlets = 2;
 
 function findNotes(num) {
   var exactNotes = [];
+  var closeNotes = [];
 
   var frq = findFrq(num);
-  var undertones = generateUndertones(frq);
+  // var undertones = generateUndertones(frq);
   var overtones = generateOvertones(frq);
 
-  partials = undertones.concat(overtones);
+  // var partials = undertones.concat(overtones);
+  var partials = overtones;
   var i = 0;
   while (i < partials.length) {
     var q = 0;
     while (q < data.length) {
-      if (data[q].frq - partials[i] < 1 && data[q].frq - partials[i] > -1) {
+      //add to exact notes list
+      if (checkIfExact(Number(data[q].frq), partials[i])) {
         exactNotes.push(data[q].num);
       }
+      // add to around notes list
+      // if (checkIfClose(Number(data[q].frq), partials[i])) {
+      //   closeNotes.push(data[q].num);
+      // }
       q += 1;
     }
     i += 1;
   }
 
   outlet(0, exactNotes);
+  outlet(1, closeNotes);
+}
+
+function checkIfExact(data, partial) {
+  var upperBound = partial * 1.009;
+  var lowerBound = partial * 0.999;
+  if (data < upperBound && data > lowerBound) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function checkIfClose(data, partial) {
+  var upperBound = partial * 1.05;
+  var lowerBound = partial * 0.95;
+  if (data < upperBound && data > lowerBound) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 function findFrq(number) {
-  frq = "";
+  var frq = "";
   var i = 0;
   while (i < data.length) {
     if (data[i].num.toString() == number) {
