@@ -112,9 +112,9 @@ function findNotes(num) {
         exactNotes.push(data[q].num);
       }
       // add to around notes list
-      // if (checkIfClose(Number(data[q].frq), partials[i])) {
-      //   closeNotes.push(data[q].num);
-      // }
+      if (checkIfClose(Number(data[q].frq), partials[i])) {
+        closeNotes.push(data[q].num);
+      }
       q += 1;
     }
     i += 1;
