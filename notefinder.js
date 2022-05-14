@@ -119,12 +119,13 @@ function findNotes(num) {
     }
     i += 1;
   }
-
+  //new outlets
   outlet(0, exactNotes);
   outlet(1, closeNotes);
 }
 
 function checkIfExact(data, partial) {
+  //Exact bounds
   var upperBound = partial * 1.009;
   var lowerBound = partial * 0.999;
   if (data < upperBound && data > lowerBound) {
@@ -135,6 +136,7 @@ function checkIfExact(data, partial) {
 }
 
 function checkIfClose(data, partial) {
+  //Close bounds
   var upperBound = partial * 1.05;
   var lowerBound = partial * 0.95;
   if (data < upperBound && data > lowerBound) {
